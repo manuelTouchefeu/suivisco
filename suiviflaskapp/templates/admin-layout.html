@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="/static/css/app.css" />
+        <title>Admin</title>
+	</head>
+
+	<body>
+        <header id="admin">
+           <nav class="navbar">
+                <ul>
+                    <li><a href="{{ url_for('admin_observables') }}">observables</a></li>
+                    <li><a href="{{ url_for('classrooms') }}">classes</a></li>
+                    <li><a href="{{ url_for('users') }}">utilisateurs</a></li>
+                    <li><a href="{{ url_for('observables') }}">ma classe</a></li>
+                </ul>
+            </nav>
+            <nav class="navbar">
+                <ul>
+                    <li><span>{{ current_user }}</span></li>
+                    <li><a href="/account">compte</a></li>
+                    <li><a href="/logout">logout</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <h1>{% block title %}{% endblock %}</h1>
+
+        <div id="content">
+            {% block content %}{% endblock %}
+        </div>
+
+        <footer></footer>
+	</body>
+</html>

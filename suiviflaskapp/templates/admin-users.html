@@ -1,0 +1,58 @@
+{% extends "admin-layout.html" %}
+
+
+{% block title %}Utilisateurs{% endblock %}
+
+
+{% block content %}
+<p>Utilisateurs:</p>
+
+<ul>
+{% for u in users %}
+    <li>
+        <input type="hidden" name="user_id" value="{{ u.id }}">
+        {{ u }} |
+        classe:
+        <select name="class_romm" class="update_class">
+            <option value="{{ None }}">Aucune</option>
+            {% for c in classrooms %}
+                {% if u.classroom_id == c.id %}
+                <option value="{{ c.id }}" selected>{{ c.name }}</option>
+                {% else %}
+                <option value="{{ c.id }}">{{ c.name }}</option>
+                {% endif %}
+            {% endfor %}
+        </select> |
+        is_staff:
+        <select name="is_staff" class="is_staff">
+            {% if u.is_staff %}
+            <option value="True" selected>Oui</option>
+            <option value="False">Non</option>
+            {% else %}
+            <option value="True">Oui</option>
+            <option value="False" selected>Non</option>
+            {% endif %}
+        </select> |
+        <button name="del_user" class="del_user">X</button>
+    </li>
+{% endfor %}
+</ul>
+
+<p>Ajouter un utilisateur:</p>
+{% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+{% endfor %}
+<form method="POST">
+    <label for="lastname">Nom:</label> <br />
+    <input id="lastname" name="lastname" type="text" required/> <br />
+    <label for="firstname">Prénom:</label> <br />
+    <input id="firstname" name="firstname" type="text" required/> <br />
+    <label for="email">Email:</label> <br />
+    <input id="email" name="email" type="email" required/> <br />
+    <br />
+    <input id="submit" type="submit" value="Envoyer"/>
+</form>
+
+<script src="{{ url_for('static', filename='js/admin-users.js') }}"></script>
+
+{% endblock %}

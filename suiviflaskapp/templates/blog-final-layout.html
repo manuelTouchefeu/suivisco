@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="/static/css/blog.css" />
+        <title>Blog école</title>
+	</head>
+
+	<body>
+        <header>
+            <a href="/blog-ecole"><h1>{{ title }}</h1></a>
+
+            <div id="links">
+                {% if visitor or current_user.is_authenticated %}
+                <div id="authenticated" class="log">
+                    {% set value = True if visitor else False %}
+                    <input type="hidden" name="is_visitor" value="{{ value }}">
+                    {% set value = visitor.id if visitor else current_user.id %}
+                    <input type="hidden" name="user_id" value="{{ value }}">
+                    {% set user = current_user if current_user.is_authenticated else visitor %}
+                    {% set account = '/account' if current_user.is_authenticated else '/myaccount' %}
+                    {% set logout = '/logout' if current_user.is_authenticated else '/blog-logout' %}
+                    <span id="username">{{ user }}</span> | <a href="{{ account }}">Mon compte</a> | <a href="/blog-ecole/visio">Visio</a> | <a href="{{ logout }}">Déconnection</a>
+                    {% if current_user.is_authenticated %}
+                         | <a href="/blog/articles">Admin</a>
+                         | <a href="/blog-ecole/random/one">Hasard</a>
+                         | <a href="/blog-ecole/ceb">Ceb</a>
+                    {% endif %}
+                </div>
+                {% else %}
+                <div id="notauthenticated" class="log">
+                    <a href="/blog-login/">Connexion</a>
+                </div>
+                {% endif %}
+            </div>
+        </header>
+
+        <section class="content">
+            {% block content %}{% endblock %}
+        </section>
+
+        <footer>
+            <a id="ml" href="/mentions_legales/">Mentions légales</a>
+            <script>
+                "use strict";
+                var ml = document.querySelector('#ml');
+                if (ml.getAttribute('href') == window.location.pathname) {
+                    ml.style.display = 'none';
+                }
+            </script>
+        </footer>
+	</body>
+</html>

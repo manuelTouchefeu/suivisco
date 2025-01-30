@@ -1,0 +1,24 @@
+{% extends "blog-final-layout.html" %}
+
+{% block content %}
+    <p class="back"><a href="/blog-ecole" >Retour au blog</a></p>
+
+    <div class="article">
+        <form method="POST" action="/register/">
+            <label for="lastname">Nom:</label> <br>
+            <input id="lastname" name="lastname" type="text" required/> <br>
+            <label for="firstname">Prénom:</label> <br>
+            <input id="firstname" name="firstname" type="text" required/> <br>
+            <label for="email">Email:</label> <br>
+            <input id="email" name="email" type="email" required/> <br>
+            <label for="password">Mot de passe :</label> <br>
+            <input id="password" name="password" type="password" required/> <br>
+            <input id="submit" type="submit" value="Envoyer"/>
+        </form>
+    </div>
+    {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+    {% endfor %}
+<script src="/static/js/blog-hide.js"></script>
+
+{% endblock %}

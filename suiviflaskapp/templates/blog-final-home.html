@@ -1,0 +1,27 @@
+{% extends "blog-final-layout.html" %}
+
+{% block content %}
+    <div class="menu">
+    {% for article in articles %}
+        <div class="cat">
+            {% if article.category %}
+            {% set catergory_id = article.category.id %}
+            <h2><a href="/blog-ecole/?cat={{ catergory_id }}">{{ article.category.name }}</a></h2>
+            {% else %}
+            {% set catergory_id = 'None' %}
+            <h2><a href="/blog-ecole/?cat={{ catergory_id }}">En vrac</a></h2>
+            {% endif %}
+            <h3><a href="/blog-ecole/?cat={{ catergory_id }}">{{ article.title }} | le {{ article.date.strftime("%d/%m/%Y") }}</a></h3>
+            {% if article.image %}
+            <a href="/blog-ecole/?cat={{ catergory_id }}"><img src="{{ config['BLOG_IMG'] }}{{ article.image }}" width="100%"></a>
+            {% else %}
+            <a href="/blog-ecole/?cat={{ catergory_id }}"><img src="{{ config['BLOG_IMG'] }}alt.png" width="100%"></a>
+            {% endif %}
+            <p><a href="/blog-ecole/?cat={{ catergory_id }}">{{ article.content|safe }}</a></p>
+
+        </div>
+    {% endfor %}
+    </div>
+
+
+{% endblock %}

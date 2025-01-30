@@ -1,0 +1,171 @@
+@charset "UTF-8";
+/* Global */
+body {
+  background-color: white;
+  margin: 0px;
+  width: 100%;
+  min-height: 100vh;
+  font-family: Helvetica, sans-serif;
+  color: black;
+}
+body a {
+  color: black;
+  text-decoration: none;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 0.8rem;
+  padding-left: 0.8rem;
+  height: 3rem;
+  border-bottom: 0.1rem solid black;
+}
+
+#admin {
+  background-color: orange;
+}
+
+#maclasse {
+  background-color: lightgray;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+h1 {
+  font-size: 1, 5rem;
+  margin-bottom: 0.8rem;
+  margin-top: 0.8rem;
+}
+
+.navbar ul {
+  display: flex;
+  height: 100%;
+}
+.navbar li {
+  display: flex;
+  align-items: center;
+  margin-right: 0.2rem;
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
+  height: 100%;
+}
+.navbar .a--active {
+  text-decoration: underline;
+}
+
+#content {
+  padding: 0.8rem;
+}
+
+table {
+  border-collapse: collapse;
+  /* Les bordures du tableau seront collées (plus joli) */
+  width: 97%;
+}
+table td, table th {
+  vertical-align: top;
+  border: 1px solid black;
+}
+table th {
+  background-color: gray;
+}
+table .image {
+  width: 6rem;
+}
+table .skill {
+  background-color: lightgray;
+}
+table .ok {
+  background-color: green;
+}
+table .yellow {
+  background-color: yellow;
+}
+table .green {
+  background-color: green;
+}
+table .red {
+  background-color: red;
+}
+table .lightgreen {
+  background-color: lightgreen;
+}
+table .blue {
+  background-color: lightblue;
+}
+table .orange {
+  background-color: orange;
+}
+table .pass {
+  background-color: white;
+}
+table .next {
+  background-color: #D0F4C5;
+}
+table .required {
+  background-color: pink;
+}
+table .level_1 {
+  background-color: #D3D3D3;
+}
+table .level_2 {
+  background-color: #A9A9A9;
+}
+table .level_3 {
+  background-color: #808080;
+}
+table .level_4 {
+  background-color: pink;
+}
+table .toggle, table .level, table .done {
+  width: 4.3rem;
+  font-size: 0.7em;
+  text-align: center;
+}
+table .done {
+  background-color: #D3D3D3;
+}
+table .toggle, table .done {
+  cursor: pointer;
+}
+
+#editor, #editeur, #html {
+  border: 1px solid black;
+}
+
+.action {
+  border-bottom: 1px solid black;
+  border-left: 1px solid black;
+}
+
+.skillName {
+  font-weight: bold;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+input, button, select {
+  margin-bottom: 0.4rem;
+  border: none;
+  border-bottom: 0.1rem solid black;
+  padding: 0.2rem 1.5rem;
+  background-color: rgba(250, 255, 189, 0.8);
+}
+
+.description {
+  font-weight: bold;
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="/static/css/app.css" />
+        <title>suivi</title>
+	</head>
+
+	<body>
+        <h2>{{ title }}:</h2>
+        <input type="hidden" id="target" value="{{ target }}">
+        {% for media in medias %}
+            <figure>
+                {% if title == "Images" %}
+                <img src="{{ config['BLOG_IMG'] }}{{ media.filename }}" alt="{{ media.filename }}" class="media" width="100px"/>
+                {% elif title == "Audio" %}
+                <audio controls src="{{ config['BLOG_AUDIO'] }}{{ media.filename }}" title="{{ media.filename }}"  class="media">
+                    Your browser does not support the <code>audio</code> element.
+                </audio>
+                {% elif title == "Vidéos" %}
+                <video controls src="{{ config['BLOG_VIDEO'] }}{{ media.filename }}" title="{{ media.filename }}"  class="media" width="100px">
+                    Your browser does not support the <code>video</code> element.
+                </video>
+                {% elif title == "Documents" %}
+                <a href="{{ config['BLOG_DOC'] }}{{ media.filename }}">
+                    <img src="{{ config['BLOG_DOC'] }}{{ media.preview }}" width="100px" />
+                </a>
+                {% endif %}
+                {% if title == 'Documents' %}
+                <figcaption><a href="{{ config['BLOG_DOC'] }}{{ media.filename }}">{{ media.filename }}</a> | <input type="button" value="+" class="add"/></figcaption>
+                {% else %}
+                <figcaption>{{ media.filename }} | <input type="button" value="+" class="add"/></figcaption>
+                {% endif %}
+            </figure>
+        {% endfor %}
+    </body>
+    <script src="/static/js/utils.js"></script>
+    <script src="/static/js/blog-add-media.js"></script>
+</html>

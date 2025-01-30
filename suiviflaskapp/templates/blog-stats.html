@@ -1,0 +1,34 @@
+{% extends "blog-layout.html" %}
+
+{% block blog %}
+
+<h2>Fréquentation du blog</h2>
+<p>total connections: <span id="nb_connections"></span></p>
+<p>visiteurs uniques: <span id="nb_visitors"></span></p>
+<table>
+{% set ns = namespace(current_date="") %}
+{% for stat in visits %}
+    {% if ns.current_date != stat.datetime.strftime("%A%d%B%Y") %}
+        {% set ns.current_date = stat.datetime.strftime("%A%d%B%Y") %}
+        <tr id="d_{{ ns.current_date }}" class="day">
+            <th>{{ stat.datetime.strftime("%A %d %B %Y") }}</th>
+            <th>Nombre de connexions: <span class="nb_connections"></span></th>
+            <th>Visiteurs uniques: <span class="nb_visitors"></span></th>
+        </tr>
+        <tr>
+            <th>IP</th>
+            <th>ID</th>
+            <th>Heure</th>
+        </tr>
+    {% endif %}
+    <tr class="d_{{ns.current_date}} id_{{ stat.remote_addr.replace('.', '').replace(':', '') }} visit">
+        <td>{{ stat.remote_addr }}</td>
+        <td>{{ stat.visitor_id }}</td>
+        <td>{{ stat.get_time() }}</td>
+    </tr>
+{% endfor %}
+</table>
+
+<script src="/static/js/blog-stats.js"></script>
+
+{% endblock %}

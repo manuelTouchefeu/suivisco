@@ -1,0 +1,64 @@
+{% extends "child-layout.html" %}
+
+{% block child %}
+<nav>
+    <ul>
+    {% for elt in cycle.fields.values() %}
+        <li><a href="/enfant/observables/{{ child.id }}?field={{ elt.id }}">{{ elt.name }}</a></li>
+    {% endfor %}
+    </ul>
+</nav>
+
+<table>
+    <input type="hidden" id="child_id" value="{{child.id}}">
+    <tr class="field">
+        <th colspan="4">{{ field.position }}. {{ field.name }}</th>
+    </tr>
+    {% for position in field.skills.keys() | sort() %}
+        {% set skill = field.skills[position] %}
+        <tr class="skill" id="skill_{{ skill.id }}">
+            <td colspan="4">{{skill.position}}. {{skill.name}}</td>
+        </tr>
+        {% for position2 in skill.observables.keys()  | sort() %}
+        {% set obs = skill.observables[position2] %}
+        <tr class="observable" id="observable_{{ obs.id }}">
+            <input type="hidden" class="obs_id" value="{{obs.id}}">
+            <input type="hidden" class="skill_id" value="{{skill.id}}">
+            <td>{{obs.position}}. {{obs.name}}</td>
+            <td class="toggle {{ obs.status_s }}">
+                {% if obs.date %}
+                    {{ obs.date }}
+                {% endif %}
+            </td>
+            <td class="image">
+            {% if obs.image_child %}
+                <img src="{{ config['OBS'] }}{{ obs.image_child }}" alt="{{ obs.image_child }}" width="100%" />
+            {% endif %}
+            </td>
+            <td>
+                <input type="hidden" class="obs_id" value="{{obs.id}}">
+                <input type="file" style="display:none" />
+                <input type="submit" class="choose-button" value="Choisir une image">
+                <span class="upload-file-final-container" style="display:none">
+                    <span class="file-name"></span>
+                    <input type="submit" class="upload-button" value="Envoyer">
+                    <input type="submit" class="cancel-button" value="Annuler">
+                    <p class="upload-progress" style="display:none"><span class="upload-percentage"></span> %</p>
+                </span>
+                {% if obs.image_child %}
+                <input type="button" class="rotate" value="⥁">
+                {% if obs.image != obs.image_child %}
+                <input type="button" class="del" value="Supprimer">
+                {% endif %}
+                {% endif %}
+            </td>
+
+        </tr>
+        {% endfor %}
+    {% endfor %}
+</table>
+
+<script src="/static/js/child-observables.js"></script>
+<script src="/static/js/utils.js"></script>
+
+{% endblock %}

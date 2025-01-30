@@ -1,0 +1,27 @@
+{% extends "blog-final-layout.html" %}
+
+{% block content %}
+
+    <p class="back"><a href="/blog-ecole" >Retour au blog</a></p>
+
+    <div class="article">
+        <form action="/blog-login/" method="POST">
+            <label for="email">Mail:</label><br>
+            <input id="email" name="email" type="text" required><br>
+            <label for="password">Mot de passe:</label><br>
+            <input id="password" name="password" type="password" required><br>
+            <input type="submit" id="submit" value="Envoyer">
+        </form>
+        <br>
+        <a href="/blog-lost-password">J'ai oublié mon mot de passe!</a>
+        <br>
+        ou
+        <br>
+        <a href="/register">S'inscrire</a>
+        {% for message in get_flashed_messages() %}
+            <div class="flash">{{ message }}</div>
+        {% endfor %}
+    </div>
+<script src="/static/js/blog-hide.js"></script>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "blog-final-random-layout.html" %}
+
+{% block random %}
+<div>
+    <label for="number">Choisissez un nombre d'équipes: </label>
+    <select name="number" id="number">
+        <option value="" selected disabled>-</option>
+    {% for i in range(2, number+1) %}
+        <option value="{{ i }}">{{ i }}</option>
+    {% endfor %}
+    </select>
+    <button type="button" id="go">Go!</button>
+</div>
+
+<div id="teams"></div>
+
+<script src="/static/js/blog-final-random-teams.js"></script>
+{% endblock %}

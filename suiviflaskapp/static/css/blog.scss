@@ -1,0 +1,294 @@
+@font-face {
+    font-family: 'Sketch 3D';
+    src: url('/static/blog/fonts/Sketch 3D.woff');
+}
+
+$body-color: lightgray;
+$article-color: white;
+
+body {
+	margin: 0px;
+	padding: 0px;
+	min-height: 100vh;
+	font-family: Helvetica, sans-serif;
+	text-align: center;
+    background-color: $body-color;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .button {
+        cursor: pointer;
+        &--scrollUp {
+            position: fixed;
+            bottom: 3rem;
+            right: 3rem;
+            display: none;
+        }
+    }
+
+    input, button {
+      margin-bottom: 0.8rem;
+      border: none;
+      border-bottom: 0.1rem solid black;
+      padding: 0.8rem 1.5rem;
+      background-color: #cccccc;
+    }
+
+    a {
+        color: black;
+        text-decoration: none;
+    }
+
+
+}
+
+header {
+    margin-bottom: 2rem;
+    width: 100vw;
+    border-bottom: 0.1rem solid white;
+
+    h1 {
+        font-weight: normal;
+        font-size: 4rem;
+        margin-top: 1.5rem;
+        padding: 0.5rem;
+        font-family: 'Sketch 3D';
+
+    }
+
+    #links {
+        display: flex;
+        justify-content: space-between;
+        padding-right: 2rem;
+        padding-left: 2rem;
+    }
+}
+
+.content {
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    .menu {
+        width: 75vw;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+
+        .cat {
+          background-color: white;
+          width: 30vw;
+          padding: 1.5rem;
+          border-radius: 1rem;
+          margin-bottom: 1rem;
+          text-align: left;
+          font-size: 1rem;
+          a {
+            color: black;
+            text-decoration: none;
+          }
+        }
+    }
+
+    .article {
+        background-color: $article-color;
+        width: 55vw;
+        @media all and (max-device-width: 480px) {
+            width: 75vw;
+        }
+        padding: 1.5rem;
+        border-radius: 1rem;
+        margin-bottom: 1rem;
+        text-align: left;
+        font-size: 1rem;
+
+        h2 {
+            font-size: 2rem;
+            margin-top: 0.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .toggle_com {
+            font-weight: bold;
+            cursor: pointer;
+            color: gray;
+            .toggle_com--active {
+                color: black;
+            }
+        }
+
+        .login_required {
+
+        }
+
+        .comments{
+            margin-top: 2rem;
+            background-color: lightgray;
+            padding: 1.5rem;
+            border-radius: 1rem;
+
+            .editor {
+                border: 1px solid black;
+                min-height: 5rem;
+            }
+
+            .comment, .answer{
+                border: 1px solid black;
+                padding: 1rem;
+                margin-top: 1rem;
+            }
+        }
+
+        a {
+            color: black;
+            text-decoration: underline;
+        }
+
+    }
+
+
+    @media all and (max-device-width: 500px) {
+      input {
+        width: 50%;
+        font-size: 3rem;
+      }
+    }
+
+    input[type=submit] {
+      margin-top: 0.8rem;
+    }
+
+
+}
+
+#rgpd {
+  background-color: rgba(153, 153, 102, 0.8);
+  font-size: 1.5rem;
+  font-weight: bold;
+  width: 100%;
+  height: 30%;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
+
+footer {
+    a {
+        font-size: 1rem;
+        color: black;
+        text-decoration: none;
+    }
+}
+
+.back {
+    text-align: left;
+    a {
+        font-size: 1rem;
+        color: black;
+        text-decoration: none;
+    }
+}
+
+
+#chess-content {
+    display: flex;
+
+    #info {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #board {
+        border: 1px solid black;
+        width: 392px;
+    }
+
+    .row {
+        display: flex;
+    }
+
+    .cell {
+        width: 49px;
+        height: 49px;
+    }
+
+    .noir {
+        background-color: gray;
+    }
+
+    img {
+        width: 49px;
+    }
+
+    .selected {
+        border: 1px solid red;
+    }
+
+}
+
+#morpion-content {
+    display: flex;
+    align-items: space-around;
+
+
+    #message {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #grid {
+        border: 1px solid black;
+        width: 225px;
+    }
+
+    .row {
+        display: flex;
+    }
+
+    .cell {
+        border: 1px solid black;
+        width: 75px;
+        height: 75px;
+    }
+
+    img {
+        width: 90%;
+    }
+
+}
+
+#card-deck {
+    display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	align-items: center;
+    padding: 0;
+    margin: 0;
+
+    .card {
+        width: 20%;
+        background-color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+        margin: 1rem;
+
+        img {
+            width: 100%;
+        }
+    }
+}
+
+
+

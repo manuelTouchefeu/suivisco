@@ -1,0 +1,115 @@
+{% extends "admin-layout.html" %}
+
+
+{% block title %}Observables{% endblock %}
+
+
+{% block content %}
+<nav class="navbar">
+    <ul>
+        <li><a href="/admin/observables?cycle=1">Cycle 1</a></li>
+        <li><a href="/admin/observables?cycle=2">Cycle 2</a></li>
+        <li><a href="/admin/observables?cycle=3">Cycle 3</a></li>
+    </ul>
+</nav>
+
+<input type="hidden" id="cycle_id" value="{{ cycle.id }}">
+<h2>{{ cycle.name }}</h2>
+
+<div>
+    <button id="exportPdf">Exporter en PDF</button>
+</div>
+
+<nav>
+    <ul>
+    {% for elt in cycle.fields.values() %}
+        <li><a href="/admin/observables?cycle={{cycle.id}}&field={{elt.id}}">{{ elt.name }}</a></li>
+    {% endfor %}
+    </ul>
+</nav>
+
+<table>
+    <tr class="field">
+        <th colspan="2">
+            {{ field.position }}. {{ field.name }}
+            <input type="hidden" name="type" value="field">
+            <input type="hidden" name="id" value="{{field.id}}">
+            <button type="button" name="add" class="edit">+</button>
+        </th>
+    </tr>
+    {% for position in field.skills.keys()  | sort() %}
+        {% set skill = field.skills[position] %}
+        <tr id="skill_{{skill.id}}" class="skill">
+            <td colspan="2">
+                <span class="itemText">{{skill.position}}. {{skill.name}}</span>
+                <input type="hidden" name="cycle" value="{{cycle.id}}">
+                <input type="hidden" name="id" value="{{skill.id}}">
+                <input type="hidden" name="type" value="skill">
+                <button type="button" class="up">↑ </button>
+                <button type="button" class="down">↓ </button>
+                <button type="button" name="update" value="" class="edit">⥁</button>
+                <button type="button" name="add" value="" class="edit">+</button>
+                <button type="button" class="del">x</button>
+            </td>
+        </tr>
+        {% for position2 in skill.observables.keys()  | sort() %}
+        {% set obs = skill.observables[position2] %}
+        <tr id="observable_{{obs.id}}" class="skill_{{skill.id}} observable">
+            <td>
+                <span class="itemText">{{obs.position}}. {{obs.name}}</span>
+                <input type="hidden" name="cycle" value="{{cycle.id}}">
+                <input type="hidden" name="id" value="{{obs.id}}">
+                <input type="hidden" name="type" value="obs">
+                <button type="button" class="up">↑ </button>
+                <button type="button" class="down">↓ </button>
+                <button type="button" name="update" class="edit">⥁ </button>
+                <button type="button" class="del">x</button>
+            </td>
+            {% if obs.level in [0, 3, 6] %}
+                <td class="level level_1" id="level_{{obs.id}}">{{obs.levelstr}}</td>
+            {% elif obs.level in [1, 4, 7] %}
+                <td class="level level_2" id="level_{{obs.id}}">{{obs.levelstr}}</td>
+            {% elif obs.level in [2, 5, 8] %}
+                <td class="level level_3" id="level_{{obs.id}}">{{obs.levelstr}}</td>
+            {% elif obs.level in [20, 50, 80] %}
+                <td class="level level_4" id="level_{{obs.id}}">Tous</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    {% endfor %}
+</table>
+
+<table style="display:none">
+    <tr id="skill_example" class="skill_example">
+        <td colspan="2">
+            <span class="itemText"></span>
+            <input type="hidden" name="cycle" value="{{cycle.id}}">
+            <input type="hidden" name="id" value="">
+            <input type="hidden" name="type" value="skill">
+            <button type="button" class="up">↑ </button>
+            <button type="button" class="down">↓ </button>
+            <button type="button" name="update" value="" class="edit">⥁ </button>
+            <button type="button" name="add" value="" class="edit">+</button>
+            <button type="button" class="del">x</button>
+        </td>
+    </tr>
+    <tr id="obs_example" class="skill_id observable">
+        <td>
+            <span class="itemText"></span>
+            <input type="hidden" name="cycle" value="{{cycle.id}}">
+            <input type="hidden" name="parent_id" value="">
+            <input type="hidden" name="id" value="">
+            <input type="hidden" name="type" value="obs">
+            <button type="button" class="up">↑ </button>
+            <button type="button" class="down">↓ </button>
+            <button type="button" name="update" class="edit">⥁ </button>
+            <button type="button" class="del">x</button>
+        </td>
+        <td class="level level_1" id="level_id">-</td>
+    </tr>
+
+</table>
+
+<script src="{{ url_for('static', filename='js/admin-observables.js') }}"></script>
+
+{% endblock %}

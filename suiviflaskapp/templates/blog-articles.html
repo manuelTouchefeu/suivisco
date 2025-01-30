@@ -1,0 +1,50 @@
+{% extends "blog-layout.html" %}
+
+{% block blog %}
+
+{% if not articles %}
+<p>Il n'y a pas encore d'article!</p>
+{% else %}
+<p>Voici les articles:</p>
+    <ul>
+    {% for a in articles %}
+        <li id="a_{{ a.id }}">
+            <a href="/blog/ecrire?article={{ a.id }}">{{ a.title }} | {{ a._date }}</a>
+            <input type="hidden" name="article_id" value="{{ a.id }}">
+            <button type="button" class="del">x</button>
+            <select name="publication">
+                {% if a.is_published %}
+                    <option value="False">Hors ligne</option>
+                    <option value="True" selected>En ligne</option>
+                {% else %}
+                    <option value="False" selected>Hors ligne</option>
+                    <option value="True">En ligne</option>
+                {% endif %}
+            </select>
+            <select name="edition">
+                {% if a.is_editable %}
+                    <option value="False">Non commentable</option>
+                    <option value="True" selected>Commentable</option>
+                {% else %}
+                    <option value="False" selected>Non commentable</option>
+                    <option value="True">Commentable</option>
+                {% endif %}
+            </select>
+            <select id="category" name="category">
+                <option value="{{ None }}">Catégorie</option>
+                {% for item in categories %}
+                    {% if a.category_id == item.id %}
+                    <option value="{{ item.id }}" selected>{{ item.name }}</option>
+                    {% else %}
+                    <option value="{{ item.id }}">{{ item.name }}</option>
+                {% endif %}
+        {% endfor %}
+    </select>
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+<script src="/static/js/blog-articles.js"></script>
+
+{% endblock %}

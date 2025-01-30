@@ -1,0 +1,90 @@
+{% extends "admin-layout.html" %}
+
+
+{% block title %}Classes{% endblock %}
+
+
+{% block content %}
+<div>
+    <form method="POST" action="{{ url_for('classrooms') }}">
+        <input type="hidden" name="op" value="add_classroom">
+        <label for="name">Ajouter une classe:</label>
+        <input id="name" name="name" type="text"/>
+        <input type="submit" value="Envoyer"/>
+    </form>
+</div>
+
+<table>
+    <tr>
+        {% for c in classrooms %}
+            <th class="classroom_{{ c.id }}">
+                <span class="name">{{ c.name }}</span>
+                <button type="button" value="{{ c.id }}" class="del_classroom">x</button>
+                <button type="button" value="{{ c.id }}" class="update_classroom">⥁</button>
+            </th>
+        {% endfor %}
+    </tr>
+    <tr>
+        {% for c in classrooms %}
+            <td class="dropZone classroom_{{ c.id }}">
+                <input name="class_id" value="{{ c.id }}" type="hidden">
+                <ul>
+                    {% for ch in children %}
+                        {% if ch.classroom_id == c.id %}
+                            <li class="draggable" id="child_{{ ch.id }}">
+                                <span>{{ch}} ({{ch.birthdate.strftime("%d/%m/%Y")}}) ({{ch.group()}})</span>
+                                <button type="button" value="{{ ch.id }}" class="del">x</button>
+                                <button type="button" value="{{ ch.id }}" class="update">⥁</button>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </td>
+        {% endfor %}
+    </tr>
+
+</table>
+
+<div class="dropZone">
+    <input name="class_id" value="" type="hidden">
+    <p>Sans affectation:</p>
+    <ul>
+        {% for c in children %}
+            {% if c.classroom_id is none %}
+            <li class="draggable" id="child_{{ c.id }}">
+                <span>{{ c }} ({{ c.birthdate.strftime("%d/%m/%Y") }}) ({{ c.group() }})</span>
+                <button type="button" value="{{ c.id }}" class="del">x</button>
+                <button type="button" value="{{ c.id }}" class="update">⥁</button>
+            </li>
+            {% endif %}
+        {% endfor %}
+
+    </ul>
+</div>
+
+
+<div>
+    <h2 id="form_child_legend">Ajouter un enfant:</h2>
+    <form id="form_child" method="POST" action="{{ url_for('classrooms') }}">
+        <label for="lastname">Nom:</label> <br>
+        <input id="lastname" name="lastname" type="text" required/> <br>
+        <label for="firstname">Prénom:</label> <br>
+        <input id="firstname" name="firstname" type="text" required/> <br>
+        <label for="birthdate">Date de naissance:</label> <br>
+        <input id="birthdate" name="birthdate" type="text" placeholder="jj/mm/aaaa" required/> <br>
+        <label for="speed">Vitesse:</label> <br>
+        <input id="speed" name="speed" type="text" value="0" required/> <br>
+        <label for="gender">Sexe :</label>
+        <select id="gender" name="gender">
+            <option value="F">F</option>
+            <option value="M">M</option>
+        </select> <br>
+        <br>
+        <input id="submit" type="submit" value="Envoyer"/>
+        <input id="cancel" type="button" value="Annuler"/>
+    </form>
+</div>
+
+<script src="{{ url_for('static', filename='js/admin-classrooms.js') }}"></script>
+
+{% endblock %}

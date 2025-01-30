@@ -1,0 +1,25 @@
+{% extends "blog-final-layout.html" %}
+
+{% block content %}
+<div class="article">
+
+<p><button type="button" id="target-button">Cible</button> : <span id="target">???</span></p>
+
+<p>
+    <button type="button" id="numbers-button">Nombres</button> :
+    <span id="n1" class="numbers">?</span> |
+    <span id="n2" class="numbers">?</span> |
+    <span id="n3" class="numbers">?</span> |
+    <span id="n4" class="numbers">?</span> |
+    <span id="n5" class="numbers">?</span> |
+    <span id="n6" class="numbers">?</span>
+</p>
+
+<p><button type="button" id="soluce-button">Résoudre</button></p>
+<div id="soluces">
+</div>
+
+</div>
+
+<script src="/static/js/blog-final-ceb.js"></script>
+{% endblock %}

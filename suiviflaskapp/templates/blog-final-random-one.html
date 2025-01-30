@@ -1,0 +1,12 @@
+{% extends "blog-final-random-layout.html" %}
+
+{% block random %}
+{% for group in children.keys() %}
+    <p><button type="button" value="{{ group }}" class="random">{{ group }}</button>: <span class="group" id="{{ group }}">???</span></p>
+{% endfor %}
+    <p><button type="button" class="random" value="all">Tous</button>: <span id="all">???</span></p>
+    <p><button type="button" value="reset" id="reset">Reset</button></p>
+</div>
+
+<script src="/static/js/blog-final-random-one.js"></script>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "blog-final-layout.html" %}
+
+{% block content %}
+
+<p class="back"><a href="/blog-ecole" >Retour au blog</a> | <a href="/blog-ecole/random/one">Un seul</a> | <a href="/blog-ecole/random/teams">Équipes</a></p>
+
+<div class="article">
+{% for group in children.keys() %}
+<p>{{ group }}:
+    {% for child in children[group] %}
+    <span id="C{{ child.id }}" class="child {{ group }}">{{ child.firstname }} {{ child.lastname[0] }}</span>,
+    {% endfor %}
+ </p>
+{% endfor %}
+<br>
+{% block random %}{% endblock %}
+
+{% endblock %}
+</div>

@@ -1,0 +1,40 @@
+{% extends "child-layout.html" %}
+
+{% block child %}
+<p>Par défaut, toutes les compétences évalueées depuis le début du cycle sont affichée sur le bilan.</p>
+<p>Générer un bilan:</p>
+<div>
+    <form method="POST">
+         <!--
+        <input type="checkbox" id="simple" name="simple" value="True">
+        <label for="simple">Afficher seulement la dernière compétence acquise</label>
+        <br>
+        <input type="checkbox" id="warning" name="warning" value="True">
+        <label for="warning">Afficher les difficultés</label>
+        <br>
+        <input type="checkbox" id="next" name="next" value="True">
+        <label for="next">Afficher les objectifs</label>
+        <br>
+        <input type="checkbox" id="transversal" name="transversal" value="True">
+        <label for="transversal">Afficher les compétences transversales</label>
+        <br>
+        -->
+        <input type="checkbox" id="simple" name="simple" value="True">
+        <label for="simple">Afficher seulement l'année en cours.</label><br>
+        <br>
+        <input id="submit" type="submit" value="Envoyer"/>
+    </form>
+</div>
+<br>
+
+{% if summaries|length > 0 %}
+    <p>Bilans disponibles:</p>
+    <ul>
+    {% for s in summaries %}
+        <li><a href="/static/pdf/{{b}}">{{s}}</a></li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+
+{% endblock %}

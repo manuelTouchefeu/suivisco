@@ -1,0 +1,91 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% if cycles|length > 1 %}
+<nav class="navbar">
+    <ul>
+    {% for c in cycles %}
+    <li><a href="/observables?cycle={{ c }}">Cycle {{ c }}</a></li>
+    {% endfor %}
+    </ul>
+</nav>
+{% endif %}
+
+<h2>{{ cycle.name }}</h2>
+
+{% if reset_available == True %}
+<div>
+    <button id="resetDone">Reset</button>
+</div>
+{% endif %}
+
+<nav>
+    <ul>
+    {% for elt in cycle.fields.values() %}
+        <li><a href="/observables?cycle={{ cycle.id }}&field={{ elt.id }}">{{ elt.name }}</a></li>
+    {% endfor %}
+    </ul>
+</nav>
+
+
+<table>
+    <tr class="field">
+        <th colspan="5">{{ field.position }}. {{ field.name }}</th>
+    </tr>
+    {% for position in field.skills.keys() | sort() %}
+        {% set skill = field.skills[position] %}
+        <tr class="skill">
+            <td colspan="5">{{skill.position}}. {{skill.name}}</td>
+        </tr>
+        {% for position2 in skill.observables.keys() | sort() %}
+        {% set obs = skill.observables[position2] %}
+        <tr class="observable" id="observable_{{ obs.id }}">
+            <td>{{obs.position}}. {{obs.name}}</td>
+            {% if obs.level in [0, 3, 6] %}
+                <td class="level level_1">{{ obs.levelstr }}</td>
+            {% elif obs.level in [1, 4, 7] %}
+                <td class="level level_2">{{ obs.levelstr }}</td>
+            {% elif obs.level in [2, 5, 8] %}
+                 <td class="level level_3">{{ obs.levelstr }}</td>
+            {% else %}
+                <td class="level level_4">{{ obs.levelstr }}</td>
+            {% endif %}
+            <td class="done">
+                {% if obs.done %}
+                Fait le {{ obs.done }}
+                {% else %}
+                A faire
+                {% endif %}
+            </td>
+            <td class="image">
+            {% if obs.image %}
+                <img src="{{ config['OBS'] }}{{ obs.image }}" alt="{{ obs.image }}" width="100%" />
+            {% endif %}
+            </td>
+            <td>
+                <input type="hidden" class="obs_id" value="{{ obs.id }}">
+                <input type="file" style="display:none" />
+                <input type="submit" class="choose-button" value="Choisir une image">
+                <span class="upload-file-final-container" style="display:none">
+                    <span class="file-name"></span>
+                    <input type="submit" class="upload-button" value="Envoyer">
+                    <input type="submit" class="cancel-button" value="Annuler">
+                    <p class="upload-progress" style="display:none"><span class="upload-percentage"></span> %</p>
+                </span>
+                <input type="submit" class="blog" value="Image du blog">
+                {% if obs.image %}
+                <input type="button" class="rotate" value="⥁">
+                <input type="submit" class="del" value="Supprimer">
+                {% endif %}
+            </td>
+
+        </tr>
+        {% endfor %}
+    {% endfor %}
+</table>
+
+<script src="/static/js/observables.js"></script>
+<script src="/static/js/utils.js"></script>
+
+{% endblock %}

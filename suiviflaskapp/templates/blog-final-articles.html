@@ -1,0 +1,200 @@
+{% extends "blog-final-layout.html" %}
+
+{% block content %}
+
+{% if articles %}
+    <h2>{{ articles[0].category.name }}</h2>
+    <p class="back"><a href="/blog-ecole" >Retour à l'accueil</a></p>
+
+    {% for article in articles %}
+    <div class="article" id="article_{{ article.id }}">
+        <h2>
+            <span class="title">{{ article.title }}</span> |
+            le <span class="date">{{ article.date.strftime("%d/%m/%Y") }}</span>
+        </h2>
+        {% if article.image %}
+        <img src="{{ config['BLOG_IMG'] }}{{ article.image }}" width="100%">
+        {% endif %}
+        <div class="text">
+        {{ article.content|safe }}
+        </div>
+        <br>
+        {% if article.is_editable %}
+            {% if visitor or current_user.is_authenticated %}
+            <span class="toggle_com toggle_com--active">Ajouter ou voir les contributions</span>
+            {% else %}
+            <span class="toggle_com">Ajouter ou voir les contributions</span>
+            {% endif %}
+            <div class="login_required" style="display:none">Accès bloqué</div>
+        {% endif %}
+
+        {% if visitor or current_user.is_authenticated %}
+        <div class="comments" style="display: none">
+            <p>Ajouter un message (il sera visible par tous si la case "public" est cochée):</p>
+            <div class="editor" contentEditable="True"></div>
+            <input type="hidden" name="article_id" value="{{ article.id }}">
+            <input type="file" class="selector" style="display:none"/>
+            <button type="button" class="choose" value="Ajouter un fichier">Ajouter un fichier</button>
+            <div class="upload-file-final-container" style="display:none">
+                <span class="file-name"></span>
+                <button type="button" class="upload-button" value="{{ article.id }}">Envoyer</button>
+                <button type="button" class="cancel-button">Annuler</button>
+                <p class="upload-progress" style="display:none"><span class="upload-percentage"></span> % uploaded</p>
+            </div>
+            <label>public  <input type="checkbox" class="is_public" name="is_public"></label>
+
+            <button type="button" class="save" value="{{ article.id }}">Poster</button>
+
+            {% for comment in article.comments %}
+                {% if comment.is_public or current_user.is_authenticated or (visitor and comment.visitor_id == visitor.id) %}
+                <div class="comment">
+                    <div class="comment--content">{{ comment.content.replace('#!', '<').replace('&?', '>' ).replace('?%', ';')|safe }}</div>
+                    <div class="comment--context">
+                        <span class="author">{{ comment.author }}</span> | le <span class="c_date>">{{ comment.datetime.strftime("%d/%m/%Y") }}</span>
+                        {% if current_user.is_authenticated and not comment.is_public %}
+                            (privé)
+                        {% endif %}
+                        {% if current_user.is_authenticated and comment.is_public %}
+                            (public)
+                        {% endif %}
+                    </div>
+                    <input type="hidden" class="comment_id" value="{{ comment.id }}">
+
+                    {% if visitor and comment.visitor_id == visitor.id %}
+                        <label>public</label>
+                        {% if comment.is_public %}
+                        <input type="checkbox" class="update_is_public" name="is_public" checked>
+                        {% else %}
+                        <input type="checkbox" class="update_is_public" name="is_public">
+                        {% endif %}
+                        <button type="button" name="del_com" value="{{ comment.id }}">Supprimer</button>
+                    {% elif current_user and comment.user_id == current_user.id %}
+                        <label>public</label>
+                        {% if comment.is_public %}
+                        <input type="checkbox" class="update_is_public" name="is_public" checked>
+                        {% else %}
+                        <input type="checkbox" class="update_is_public" name="is_public">
+                        {% endif %}
+                        <button type="button" name="del_com" value="{{ comment.id }}">Supprimer</button>
+                    {% endif %}
+
+                    <div class="answers">
+                    {% if current_user.is_authenticated %}
+                        <div>
+                            <p>Répondre:</p>
+                            <div class="editor" contentEditable="True"></div>
+                            <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                            <input type="file" class="selector" style="display:none"/>
+                            <input type="button" class="choose" value="Ajouter un fichier">
+                            <div class="upload-file-final-container" style="display:none">
+                                <span class="file-name"></span>
+                                <button type="button" class="upload-button" value="{{ comment.id }}">Envoyer</button>
+                                <button type="button" class="cancel-button">Annuler</button>
+                                <p class="upload-progress" style="display:none"><span class="upload-percentage"></span> % uploaded</p>
+                            </div>
+                            <button type="button" class="answer" value="{{ comment.id }}">Répondre</button>
+                        </div>
+                    {% endif %}
+                    {% for answer in comment.answers %}
+                        <div class="answer" id="a_{{ answer.id }}">
+                            <div class="answer--content">{{ answer.content.replace('#!', '<').replace('&?', '>' ).replace('?%', ';')|safe }}</div>
+                            <div class="answer--context">
+                            <span class="author">{{ answer.author }}</span> | le <span class="a_date>">{{ answer.datetime.strftime("%d/%m/%Y") }}</span><br>
+                            {% if visitor and comment.visitor_id == visitor.id or current_user and comment.user_id == current_user.id%}
+                            <button type="button" name="del_answer" value="{{ answer.id }}">Supprimer</button>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                    {% endfor %}
+                    </div>
+
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+
+    {% if next %}
+    <img id="more" class="button button--more" src="/static/blog/images/more.png"/>
+    {% endif %}
+    <img id="scrollUp" class="button button--scrollUp" src="/static/blog/images/to_top.png"/>
+
+{% else %}
+    <p>Il n'y a pas encore d'article!</p>
+{% endif %}
+
+<script src="/static/js/utils.js"></script>
+<script src="/static/js/blog-final-articles.js?reload=yes"></script>
+
+<div class="proto_article" id="" style="display:none">
+    <h2>
+        <span class="title"></span> |
+        le <span class="date"></span>
+    </h2>
+    <img src="" width="100%">
+    <div class="text"></div>
+    <br>
+    <span class="toggle_com">Ajouter ou voir les contributions</span>
+    <div class="login_required" style="display:none">Accès bloqué</div>
+    <div class="comments" style="display: none">
+        <p>Ajouter un message (il sera visible par tous si la case "public" est cochée):</p>
+        <input type="hidden" name="article_id" value="">
+        <input type="file" class="selector" style="display:none"/>
+        <input type="button" class="choose" value="Ajouter un fichier">
+        <div class="upload-file-final-container" style="display:none">
+            <span class="file-name"></span>
+            <button type="button" class="upload-button" value="">Envoyer</button>
+            <button type="button" class="cancel-button">Annuler</button>
+            <p class="upload-progress" style="display:none"><span class="upload-percentage"></span> % uploaded</p>
+        </div>
+        <div class="editor" contentEditable="True" ></div>
+        <label>public</label>
+        <input type="checkbox" class="is_public" name="is_public" checked>
+        <button type="button" class="save" value="">Poster</button>
+    </div>
+</div>
+
+
+<div class="proto_comment" style="display:none">
+    <div class="comment--content"></div>
+    <div class="comment--context">
+        <span class="author"></span> | le <span class="c_date"></span>
+    </div>
+    <input type="hidden" class="comment_id" value="">
+    <label>public</label>
+    <input type="checkbox" class="update_is_public" name="is_public">
+    <button type="button" name="del_com" value="">Supprimer</button>
+</div>
+
+<div class="proto_answer" id="" style="display:none">
+    <div class="answer--content"></div>
+    <div class="answer--context">
+        <span class="author"></span> | le <span class="a_date"></span>
+    </div>
+    <button type="button" name="del_answer" value="">Supprimer</button>
+</div>
+
+
+<img id="proto_img" src=""  width="100%" style="display:none">
+<figure id="proto_audio" style="display:none">
+    <audio controls src="" title="">
+        Your browser does not support the <code>audio</code> element.
+    </audio> <br>
+    <figcaption></figcaption>
+</figure>
+<figure id="proto_video" style="display:none">
+    <video controls src="" title="" width="150px">
+        Your browser does not support the <code>video</code> element.
+    </video> <br>
+    <figcaption></figcaption>
+</figure>
+<figure id="proto_doc" style="display:none">
+    <a href=""><img src="" width="100px" /></a><br>
+    <figcaption>
+        <a href=""></a>
+    </figcaption>
+</figure>
+{% endblock %}

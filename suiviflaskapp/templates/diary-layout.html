@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <nav class="navbar navbar2">
+        <ul>
+            <li><a href="{{ url_for('diary_all') }}">Tout le journal</a></li>
+            <li><a href="{{ url_for('diary_planning', day='n') }}">Prévoir</a></li>
+            <li><a href="{{ url_for('diary_timetable') }}">EDT</a></li>
+        </ul>
+    </nav>
+
+    {% block diary %}
+
+    {% endblock %}
+
+{% endblock %}

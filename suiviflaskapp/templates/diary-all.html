@@ -1,0 +1,36 @@
+{% extends "diary-layout.html" %}
+
+
+{% block diary %}
+
+<ul>
+{% for d in diaries %}
+    <li id="diary_{{ d.id }}">
+        <a href="/journal/prevoir/{{ d.filename }}">{{ d.date.strftime("%A") }} {{ d.date.strftime("%d/%m/%Y") }}</a>
+        <button name="del" value="{{ d.id }}">Supprimer</button>
+    </li>
+{% endfor %}
+</ul>
+
+<script>
+    var buttons = Array.from(document.querySelectorAll('button[name=\'del\''));
+    buttons.forEach(function(b) {
+        b.addEventListener('click', function(e) {
+            var xhr = new XMLHttpRequest();
+            var host = window.location.origin + '/journal/tout';
+            xhr.open('POST', host);
+            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            xhr.send(JSON.stringify({diary_id: e.target.value}));
+            // retour de la requête
+            xhr.addEventListener("readystatechange", function() {
+                if (xhr.readyState === xhr.DONE) {
+                    var json = JSON.parse(xhr.responseText);
+                    var diary = document.querySelector('#diary_' + json['diary_id']);
+                    diary.parentNode.removeChild(diary);
+                }
+            }, false);
+
+        }, false);
+    });
+</script>
+{% endblock %}

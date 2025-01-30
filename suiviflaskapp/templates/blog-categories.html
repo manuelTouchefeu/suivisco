@@ -1,0 +1,33 @@
+{% extends "blog-layout.html" %}
+
+{% block blog %}
+
+<p>Ajouter une catégorie:</p>
+<form method="POST">
+    <input type="hidden" id="category_id" name="category_id" value="">
+    <input type="hidden" id="op" name="op" value="add">
+    <label for="name">nom:</label><br>
+    <input id="name" name="name" type="text" value="" required><br>
+    <label for="description">description:</label><br>
+    <textarea id="description" name="description" rows="4" cols="20"></textarea><br>
+    <input id="addButton" type="submit" value="Valider"/>
+    <input id="cancel" type="button" value="Annuler" style="display:None"/>
+</form>
+
+{% if not categories %}
+<p>Il n'y a pas encore de catégorie!</p>
+{% else %}
+<p>Voici les catégories:</p>
+<ul>
+{% for cat in categories %}
+    <li>
+        <span class="cat_name">{{ cat.name }}</span> |
+        <span class="cat_description">{{ cat.description|safe }}</span>
+        <button class="updateCat" value="{{ cat.id }}">modifier</button>
+        <button class="deleteCat" value="{{ cat.id }}">supprimer</button>
+    </li>
+{% endfor %}
+</ul>
+{% endif %}
+<script src="/static/js/blog-categories.js"></script>
+{% endblock %}

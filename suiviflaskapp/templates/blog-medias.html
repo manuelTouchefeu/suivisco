@@ -1,0 +1,115 @@
+{% extends "blog-layout.html" %}
+
+{% block blog %}
+
+<nav class="navbar navbar3">
+    <ul>
+        <li><a href="/blog/medias/img">Images</a></li>
+        <li><a href="/blog/medias/audio">Audio</a></li>
+        <li><a href="/blog/medias/video">Vidéos</a></li>
+        <li><a href="/blog/medias/doc">Documents</a></li>
+    </ul>
+</nav>
+
+<p>Ajouter un fichier:</p>
+
+<input type="file" id="selector" style="display:none"/>
+<input type="button" id="choose" value="Choisir un fichier">
+<input type="hidden" name="media_type" value="{{ media_type }}">
+
+
+<div class="upload-file-final-container" style="display:none">
+    <span id="file-name"></span>
+    <input type="button" id="upload-button" value="Envoyer">
+    <input type="button" id="cancel-button" value="Annuler">
+    <p id="upload-progress" style="display:none"><span id="upload-percentage"></span> % uploaded</p>
+</div>
+
+
+{% if not files %}
+    <p id="info">Il n'y a encore aucun fichier!</p>
+{% else %}
+    <div class="container">
+    {% for media in files %}
+        <figure class="file" id="file_{{ media.id }}">
+            {% if media_type == "img" %}
+            <img src="{{ config['BLOG_IMG'] }}{{ media.filename }}" alt="{{ media.filename }}" class="media" width="100px"/>
+            {% elif media_type == "audio" %}
+            <audio controls src="{{ config['BLOG_AUDIO'] }}{{ media.filename }}" title="{{ media.filename }}"  class="media">
+                Your browser does not support the <code>audio</code> element.
+            </audio>
+            {% elif media_type == "video" %}
+            <video controls src="{{ config['BLOG_VIDEO'] }}{{ media.filename }}" title="{{ media.filename }}"  class="media" width="150px">
+                Your browser does not support the <code>video</code> element.
+            </video>
+            {% elif media_type == "doc" %}
+            <img src="{{ config['BLOG_DOC'] }}{{ media.preview }}" width="100px" /><br>
+            {% endif %}
+            <figcaption>
+                <input type="hidden" name="file_id" value="{{ media.id }}">
+                {% if media_type == "img" %}
+                <button type="button" class="rotate">⥁ </button>
+                {% endif %}
+                <button type="button" class="del">x</button>
+                <br>
+                {% if media_type == "doc" %}
+                <a href="{{ config['BLOG_DOC'] }}{{ media.filename }}">
+                    <span class="info">{{ media.filename }}</span>
+                </a>
+                {% else %}
+                <span class="info">{{ media.filename }}</span>
+                {% endif %}
+            </figcaption>
+        </figure>
+    {% endfor %}
+    </div>
+{% endif %}
+
+<figure class="file" id="proto_img" style="display:none">
+    <img src="" alt="" width="100px" />
+    <figcaption>
+        <input type="hidden" name="file_id" value="">
+        <button type="button" class="rotate">⥁ </button>
+        <button type="button" class="del">x</button>
+        <br>
+        <span class="info"></span>
+    </figcaption>
+</figure>
+<figure class="file" id="proto_audio" style="display:none">
+    <audio controls src="" title="">
+        Your browser does not support the <code>audio</code> element.
+    </audio> <br>
+    <figcaption>
+        <input type="hidden" name="file_id" value="">
+        <button type="button" class="del">x</button>
+        <br>
+        <span class="info"></span>
+    </figcaption>
+</figure>
+<figure class="file" id="proto_video" style="display:none">
+    <video controls src="" title="" width="150px">
+        Your browser does not support the <code>video</code> element.
+    </video> <br>
+    <figcaption>
+        <input type="hidden" name="file_id" value="">
+        <button type="button" class="del">x</button>
+        <br>
+        <span class="info"></span>
+    </figcaption>
+</figure>
+<figure class="file" id="proto_doc" style="display:none">
+    <a href=""><img src="" width="100px" /></a><br>
+    <figcaption>
+        <input type="hidden" name="file_id" value="">
+        <button type="button" class="del">x</button>
+        <br>
+        <a href="">
+            <span class="info"></span>
+        </a>
+    </figcaption>
+</figure>
+
+<script src="/static/js/blog-medias.js"></script>
+<script src="/static/js/utils.js"></script>
+
+{% endblock %}

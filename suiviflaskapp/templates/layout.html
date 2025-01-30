@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="/static/css/app.css" />
+        <title>Suivi</title>
+	</head>
+
+	<body>
+        <header id="maclasse">
+           <nav class="navbar">
+                <ul>
+                    <li><a href="{{ url_for('observables') }}">observables</a></li>
+                    <li><a href="{{ url_for('classroom') }}">classe</a></li>
+                    <li><a href="{{ url_for('diary_all') }}">journal</a></li>
+                    <li><a href="{{ url_for('blog_articles') }}">blog</a></li>
+                    {% if current_user.is_staff: %}
+                        <li><a href="{{ url_for('admin_observables') }}">admin</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            <nav class="navbar">
+                <ul>
+                    <li><span>{{ current_user }}</span></li>
+                    <li><a href="/account">compte</a></li>
+                    <li><a href="/logout">logout</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div id="content">
+            {% block content %}{% endblock %}
+        </div>
+
+        <footer></footer>
+	</body>
+
+    <script src="/static/js/layout.js"></script>
+</html>

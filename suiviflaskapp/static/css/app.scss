@@ -1,0 +1,201 @@
+/* Global */
+$th-color: gray;
+$competence-color: lightgray;
+$admin-color: orange;
+$maclasse-color: lightgray;
+
+body {
+	background-color: white;
+	margin: 0px;
+	width: 100%;
+	min-height: 100vh;
+	font-family: Helvetica, sans-serif;
+	color: black;
+
+	a {
+      color: black;
+      text-decoration: none;
+    }
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 0.8rem;
+    padding-left: 0.8rem;
+    height: 3rem;
+    border-bottom: 0.1rem solid black;
+}
+
+#admin {
+    background-color: $admin-color
+}
+
+#maclasse {
+    background-color: $maclasse-color
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+h1 {
+    font-size: 1,5rem;
+    margin-bottom: 0.8rem;
+    margin-top: 0.8rem;
+}
+
+.navbar {
+    ul {
+        display: flex;
+        height: 100%;
+    }
+    li {
+        display: flex;
+        align-items : center;
+        margin-right: 0.2rem;
+        padding-left: 0.2rem;
+        padding-right: 0.2rem;
+        height: 100%;
+    }
+    .a--active {
+        text-decoration: underline;
+    }
+}
+
+#content {
+    padding: 0.8rem;
+}
+
+table {
+    border-collapse: collapse;
+    /* Les bordures du tableau seront collées (plus joli) */
+    width: 97%;
+
+    td, th {
+        vertical-align: top;
+        border: 1px solid black;
+    }
+
+    th {
+        background-color: gray;
+    }
+
+    .image {
+      width: 6rem;
+    }
+
+    .skill {
+        background-color: lightgray;
+    }
+
+    .ok {
+        background-color: green;
+    }
+
+    .yellow {
+        background-color: yellow;
+    }
+
+    .green {
+        background-color: green;
+    }
+
+    .red {
+        background-color: red;
+    }
+
+     .lightgreen {
+        background-color: lightgreen;
+    }
+
+    .blue {
+        background-color: lightblue;
+    }
+
+    .orange {
+        background-color: orange;
+    }
+
+    .pass {
+        background-color: white;
+    }
+
+    .next {
+        background-color: #D0F4C5;;
+    }
+
+    .required {
+        background-color: pink;;
+    }
+
+    .level_1 {
+        background-color: #D3D3D3;
+    }
+
+    .level_2 {
+        background-color: #A9A9A9;
+    }
+
+    .level_3 {
+        background-color: #808080;
+    }
+
+    .level_4 {
+        background-color: pink;
+    }
+
+    .toggle, .level, .done {
+        width: 4.3rem;
+        font-size: 0.7em;
+        text-align: center;
+    }
+
+    .done {
+        background-color: #D3D3D3;
+    }
+
+    .toggle, .done {
+        cursor: pointer;
+    }
+}
+
+#editor, #editeur, #html{
+    border: 1px solid black;
+}
+
+.action {
+  border-bottom:  1px solid black;
+  border-left:  1px solid black;
+}
+
+.skillName {
+    font-weight: bold;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+
+input, button, select {
+  margin-bottom: 0.4rem;
+  border: none;
+  border-bottom: 0.1rem solid black;
+  padding: 0.2rem 1.5rem;
+  background-color: rgba(250, 255, 189, 0.8);
+}
+
+.description {
+    font-weight: bold;
+}
+

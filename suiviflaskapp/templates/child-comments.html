@@ -1,0 +1,56 @@
+"{% extends "child-layout.html" %}
+
+{% block child %}
+
+<div id="form">
+    <h2>Ajouter un commentaire:</h2>
+    <!--
+    <input type="button" value="G" class="style" id="bold" style="font-weight:bold;" />
+    <input type="button" value="I" class="style" id="italic" style="font-style:italic;" />
+    <input type="button" value="S" class="style" id="underline" style="text-decoration:underline;" />
+    <input type="button" value="S" class="style" id="strikeThrough" style="text-decoration:line-through;" />
+    -->
+    <div id="editeur" contentEditable="True" ></div>
+    <input type="hidden" id="comment_id" value="">
+    <input type="hidden" id="child_id" value="{{child.id}}">
+    <input type="submit" id="save" class="add" value="Enregistrer" />
+    <input type="submit" id="cancel" value="Annuler" style="display:none"/>
+</div>
+
+<div id="comments">
+    <h2>Commentaires:</h2>
+    {% if not child.comments %}
+        <p>Il n'y a pas encore de commentaires.</p>
+    {% else %}
+        {% set ns = namespace(grp='') %}
+        {% for comment in child.comments %}
+            {% if comment.grp != ns.grp %}
+                {% set ns.grp = comment.grp %}
+                <h3 class="group">{{ comment.grp }}</h3>
+            {% endif %}
+            <div class="comment" id="comment_{{comment.id }}">
+                <div class="comment--content">{{comment.content|safe}}</div>
+                <div class="comment--context">
+                    Le {{comment.date.strftime("%d/%m/%Y")}} ({{comment.author}})
+                </div>
+                <input type="hidden" class="comment_id" value="{{ comment.id }}">
+                <input type="button" class="update" value="modifier">
+                <input type="button" class="del" value="supprimer">
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<div class="comment_proto" id="ref" style="display:none">
+    <div class="comment--content"></div>
+    <div class="comment--context"></div>
+    <input type="hidden" class="comment_id" value="">
+    <input type="button" class="update" value="modifier">
+    <input type="button" class="del" value="supprimer">
+</div>
+
+<script src="{{ url_for('static', filename='js/child-comments.js') }}"></script>
+
+
+{% endblock %}
+

@@ -1,0 +1,26 @@
+{% extends "blog-final-layout.html" %}
+
+{% block content %}
+
+<p class="back"><a href="/blog-ecole" >Retour au blog</a></p>
+
+
+<div id="meet"></div>
+{% if status == False %}
+<p id="info">La visio n'est pas encore ouverte.</p>
+{% else %}
+<p id="info">C'est l'heure!</p>
+{% endif %}
+
+{% if current_user.is_authenticated and status == True %}
+<button name="stop" value={{ ref }} id ="stop">Stop</button>
+{% elif current_user.is_authenticated and status == False %}
+<button name="stop" id ="stop">Start</button>
+{% endif %}
+
+<script src='https://meet.jit.si/external_api.js'></script>
+<script src="/static/js/blog-final-visio.js?reload=yes"></script>
+
+
+
+{% endblock %}

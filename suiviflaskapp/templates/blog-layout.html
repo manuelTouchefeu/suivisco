@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <nav class="navbar navbar2">
+        <ul>
+            <li><a href="/blog/articles">Articles</a></li>
+            <li><a href="/blog/categories">Catégories</a></li>
+            <li><a href="/blog/ecrire?article=new">Écrire</a></li>
+            <li><a href="/blog/medias/img">Medias</a></li>
+            <li><a href="/blog/visitors">Inscrits</a></li>
+            <li><a href="/blog/comments">Commentaires</a></li>
+            <li><a href="/blog/stats">Stats</a></li>
+            <li><a href="/blog-ecole">Mon blog</a></li>
+            </ul>
+    </nav>
+
+    {% block blog %}
+
+    {% endblock %}
+
+{% endblock %}

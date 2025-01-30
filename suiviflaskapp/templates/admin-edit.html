@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="/static/css/app.css" />
+        <title>suivi</title>
+	</head>
+
+	<body>
+        <section id="content">
+            <h2>{{title}}: "{{ content }}"</h2>
+            {% if update == "update" %}
+            <div id="editor" contentEditable="True">{{ content }}</div>
+            {% else %}
+            <div id="editor" contentEditable="True"></div>
+            {% endif %}
+            <input type="button" id="save" value="Save" />
+            <input type="button" id="cancel" value="Cancel" />
+        </section>
+    </body>
+    <script src="/static/js/utils.js"></script>
+    <script src="/static/js/admin-edit.js"></script>
+</html>

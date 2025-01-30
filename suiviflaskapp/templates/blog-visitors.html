@@ -1,0 +1,23 @@
+{% extends "blog-layout.html" %}
+
+{% block blog %}
+
+{% if not visitors %}
+    <p>Il n'y a pas encore d'inscrit!</p>
+{% else %}
+    <p>Les inscrits:</p>
+    <ul>
+    {% for visitor in visitors %}
+        <li>
+            <input type="hidden" name="visitor_id" value="{{ visitor.id }}">
+            {{ visitor }} | {{ visitor.email }} <button type="button" name="del">Supprimer</button>
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+{% endblock %}
+
+<script>
+
+
+</script>

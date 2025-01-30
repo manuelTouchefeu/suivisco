@@ -1,0 +1,139 @@
+{% extends "diary-layout.html" %}
+
+
+{% block diary %}
+
+{% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+{% endfor %}
+
+<div id="buttons">
+    <button type="button"  id="addDay">Ajouter un jour</button>
+    <button type="button" id="addLine">Ajouter une plage</button>
+    <button type="button" id="save">Enregistrer</button>
+    <button type="button" id="pdf">PDF</button>
+</div>
+
+
+<table>
+    <tr id="days">
+        <th>Jour</th>
+
+        {% for day in tt %}
+        <th class="day" colspan="{{ groups|length }}">
+            <span class="day_name">{{ day['name'] }}</span>
+            <button type="button" class="del_day">X</button>
+        </th>
+        {% endfor %}
+
+        <th id="model_day" class="" colspan="{{ groups|length }}" style="display:none">
+            <span class="day_name"></span>
+            <button type="button" class="del_day">X</button>
+        </th>
+    </tr>
+
+    <tr id="groups">
+        <th>
+            Niveaux
+            {% for group in groups %}
+                <input type="hidden" name="group_name" value="{{ group }}">
+            {% endfor %}
+        </th>
+        {% for day in tt %}
+            {% for group in groups %}
+                <th class="{{ day['name'] }} group">{{ group }}</th>
+            {% endfor %}
+        {% endfor %}
+        <th class="model_group" style="display:none"></th>
+    </tr>
+
+    {% for i in range(0, nb_lines) %}
+    <tr class="line">
+        {% set schedule =  tt[0]['groups'][0]['items'][i]['schedule'] %}
+        <td class="schedule">
+            <span class="description"><strong>{{ schedule }}</strong></span>
+            <button type="button" class="update_schedule">⥁</button>
+            <button type="button" class="del_line">X</button>
+            <button type="button" class="up">↑ </button>
+            <button type="button" class="down">↓ </button>
+        </td>
+
+        {% for day in tt %}
+            {% for group in day['groups'] %}
+                {% set item = group['items'][i] %}
+                <td rowspan="1" class="item {{ item['className'] }}" id="{{ item['id'] }}" style="background-color: {{ item['color'] }}">
+                    <input type="hidden" name="group" value="{{ group['name'] }}">
+                    <span class="description"><strong>{{item["description"]}}</strong></span>
+                    <button type="button" class="update_des">⥁</button><br>
+                    <input class="color" type="color" id="color_{{ item['id'] }}" name="color_{{ item['id'] }}"  value="{{ item['color'] }}">
+                </td>
+            {% endfor %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+
+
+    <tr id="model_line" class="line_model" style="display:none">
+        <td class="schedule">
+            <span class="description"></span>
+            <button type="button" class="update_schedule">⥁</button>
+            <button type="button" class="del_line">X</button>
+            <button type="button" class="up">↑ </button>
+            <button type="button" class="down">↓ </button>
+        </td>
+        <td class="item" id="example">
+            <input type="hidden" name="group" value="">
+            <span class="description">Une matière</span>
+            <button type="button" class="update_des">⥁</button>
+            <label for="color_itemID">Couleur pour itemDescription:</label>
+            <input class="color" type="color" id="color_itemID" name="color_itemID"  value="#f6b73c">
+        </td>
+    </tr>
+
+</table>
+
+<br>
+
+<table>
+    <tr>
+        <th>Domaine disciplinaire</th>
+        <th>Durée hebdomadaire réelle (60 min => 55 min)</th>
+    </tr>
+    <tr>
+        <td>Français (8h)</td>
+        <td>7:20</td>
+    </tr>
+    <tr>
+        <td>Mathématiques (5h)</td>
+        <td>4:35</td>
+    </tr>
+    <tr>
+        <td>Langue vivante (1h30)</td>
+        <td>1:22:30</td>
+    </tr>
+    <tr>
+        <td>EPS (3h)</td>
+        <td>2:45</td>
+    </tr>
+    <tr>
+        <td>Sciences et technologie (2h)</td>
+        <td>1:50</td>
+    </tr>
+    <tr>
+        <td>Enseignements artistiques (2h)</td>
+        <td>1:50</td>
+    </tr>
+    <tr>
+        <td>Histoire, géographie (1h30)</td>
+        <td>1:22:30</td>
+    </tr>
+    <tr>
+        <td>EMC (1h)</td>
+        <td>55min</td>
+    </tr>
+</table>
+
+
+<script src="/static/js/diary-timetable.js"></script>
+
+{% endblock %}

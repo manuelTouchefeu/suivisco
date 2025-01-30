@@ -1,0 +1,55 @@
+{% extends "blog-layout.html" %}
+
+{% block blog %}
+
+{% if not comments %}
+    <p>Il n'y a pas encore de commentaire!</p>
+{% else %}
+    <p>Les commentaires:</p>
+    <ul>
+    {% for comment in comments %}
+        <li>
+            Le {{ comment.datetime.strftime("%d/%m/%Y") }} |
+            {{ comment.content }} |
+            {{ comment.author }} <button type="button" value="{{ comment.id }}" name="del_com">Supprimer</button> |
+            <label>public</label>
+            {% if comment.is_public %}
+                <input type="checkbox" class="update_is_public" name="is_public" checked>
+                {% else %}
+                <input type="checkbox" class="update_is_public" name="is_public">
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+<script>
+    var host = window.location.origin + '/articles-comments/';
+
+    Array.from(document.querySelectorAll('button[name=\'del_com\']')).forEach(elt => elt.addEventListener('click', function(e) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', host);
+        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+        xhr.send(JSON.stringify({op: 'del', comment_id: this.value}));
+        xhr.addEventListener('readystatechange', function() {
+            if (this.readyState === xhr.DONE) {
+                e.target.parentNode.parentNode.removeChild(e.target.parentNode);
+            }
+        }, false);
+    }, false) );
+
+    Array.from(document.querySelectorAll('.update_is_public')).forEach(elt => elt.addEventListener('click', function(e) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', host);
+        var comment_id = this.parentNode.querySelector('button[name=\'del_com\']').value;
+        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+        xhr.send(JSON.stringify({op: 'toggle_is_public', comment_id: comment_id}));
+        xhr.addEventListener('readystatechange', function() {
+            if (this.readyState === xhr.DONE) {
+                console.log(xhr.responseText);
+            }
+        }, false);
+    }, false) );
+</script>
+{% endblock %}
+

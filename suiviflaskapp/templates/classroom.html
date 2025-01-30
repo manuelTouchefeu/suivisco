@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<table>
+    <tr>
+        {% for group in children.keys() %}
+            <th><a href="/classe/{{ group }}">{{ group }}</a></th>
+        {% endfor %}
+    </tr>
+    <tr>
+       {% for group in children.keys() %}
+        <td>
+            <ul>
+            {% for child in children[group] %}
+                <li>
+                    <a href="/enfant/observables/{{child.id}}">{{ child }}({{child.birthdate.strftime("%d/%m/%Y")}})</a>
+                </li>
+            {% endfor %}
+            </ul>
+        </td>
+        {% endfor %}
+    </tr>
+</table>
+
+{% endblock %}

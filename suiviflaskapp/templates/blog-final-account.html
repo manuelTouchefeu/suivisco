@@ -1,0 +1,54 @@
+{% extends "blog-final-layout.html" %}
+
+{% block content %}
+    <p class="back"><a href="/blog-ecole" >Retour au blog</a></p>
+
+    <div class="article">
+        <h2>Modifier mon mot de passe:</h2>
+        <form method="POST">
+            <input type="hidden" name="op" value="update">
+            <label for="password">Mot de passe :</label> <br>
+            <input id="password" name="password" type="password" required/> <br>
+            <label for="password2">Confirmez le mot de passe :</label> <br>
+            <input id="password2" name="password2" type="password" required/> <br>
+            <input id="submit" type="submit" value="Envoyer"/>
+        </form>
+        <br>
+        {% for message in get_flashed_messages() %}
+            <div class="flash">{{ message }}</div>
+        {% endfor %}
+     </div>
+
+     {% if posts %}
+     <div class="article">
+         <h2>Contributions</h2>
+         <div class="comments">
+         {% for post in posts %}
+                <div class="comment">
+                    <div class="comment--content">{{ post.content.replace('#!', '<').replace('&?', '>' ).replace('?%', ';')|safe }}</div>
+                        <div class="comment--context">
+                            Le {{ post.datetime.strftime("%d/%m/%Y") }}
+                        </div>
+                        <form method="POST">
+                            <input type="hidden" name="op" value="delete">
+                            <input type="hidden" name="comment_id" value="{{ post.id }}">
+                            <button type="submit">Supprimer</button>
+                        </form>
+                </div>
+         {% endfor %}
+         </div>
+     </div>
+     {% endif %}
+
+     <div class="article">
+         <h2>Supprimer mon compte</h2>
+         <p>Toutes les informations vous concernant (mail et nom), ainsi que vos messages, seront supprimées.</p>
+         <form method="POST">
+             <input type="hidden" name="op" value="delete_visitor">
+             <input type="hidden" name="visitor_id" value="{{ visitor.id }}">
+             <button type="submit">Supprimer mon compte</button>
+         </form>
+     </div>
+
+<script src="/static/js/blog-hide.js"></script>
+{% endblock %}

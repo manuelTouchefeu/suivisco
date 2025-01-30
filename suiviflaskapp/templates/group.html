@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+<nav class="navbar navbar3">
+    <ul>
+        {% for g in grps %}
+            <li><a href="/classe/{{ g }}">{{ g }}</a></li>
+        {% endfor %}
+    </ul>
+</nav>
+<br>
+<nav>
+    <ul>
+    {% for elt in cycle.fields.values() %}
+        <li><a href="/classe/{{ group }}?field={{ elt.id }}">{{ elt.name }}</a></li>
+    {% endfor %}
+    </ul>
+</nav>
+
+<table>
+    <tr>
+        <th>{{ field.name }}</th>
+        {% for child in children %}
+            <th>
+                <a href="/enfant/observables/{{ child.id }}?field={{ field.id }}">
+                {{ child.firstname }} {{ child.lastname[0] }}.
+                </a>
+            </th>
+        {% endfor %}
+    </tr>
+
+    {% for index in field.skills.keys()  | sort() %}
+    {% set skill = field.skills[index] %}
+        <tr class="skill">
+            <td><strong>{{ skill.position }}. {{ skill.name }}</strong></td>
+            {% for child in children %}
+                <td>
+                    <strong>
+                        <a href="/enfant/observables/{{ child.id }}?field={{ field.id }}#skill_{{ skill.id }}">
+                            {{ child.firstname }} {{ child.lastname[0] }}.
+                        </a>
+                    </strong>
+                </td>
+            {% endfor %}
+        </tr>
+        {% for index2 in skill.observables.keys()  | sort() %}
+        {% set obs = skill.observables[index2] %}
+            <tr>
+                <td>
+                    <input type="hidden" class="obs_id" value="{{ obs.id }}">
+                    {{ obs.position }}. {{ obs.name }}
+                </td>
+                {% for child in children %}
+                    {% set obs_child = child.field.skills[index].observables[index2] %}
+                    <td class="toggle {{ obs_child.status_s }}">
+                        <input type="hidden" class="child_id" value="{{ child.id }}">
+                        <input type="hidden" class="skill_id" value="{{skill.id}}">
+                        {% if obs_child.date %}
+                            {{ obs_child.date }}
+                        {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endfor %}
+</table>
+
+<script src="/static/js/group.js"></script>
+
+{% endblock %}

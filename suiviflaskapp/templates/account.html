@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <div>
+        {{ current_user }} ({{ current_user.email }})
+    </div>
+
+    <div>
+        Modifier mon mot de passe:
+        <form method="POST">
+            <label for="password">Mot de passe :</label> <br>
+            <input id="password" name="password" type="password" required/> <br>
+            <label for="password2">Confirmez le mot de passe :</label> <br>
+            <input id="password2" name="password2" type="password" required/>
+            <br>
+            <input id="submit" type="submit" value="Envoyer"/>
+        </form>
+    </div>
+
+
+     <div class="comments">
+     <h2>Contributions</h2>
+     {% for post in posts %}
+            <div class="comment">
+                <div class="comment--content">{{ post.content.replace('#!', '<').replace('&?', '>' ).replace('?%', ';')|safe }}</div>
+                    <div class="comment--context">
+                        Le {{ post.datetime.strftime("%d/%m/%Y") }}
+                    </div>
+                    <form method="POST">
+                        <input type="hidden" name="op" value="delete">
+                        <input type="hidden" name="comment_id" value="{{ post.id }}">
+                        <button type="submit">Supprimer</button>
+                    </form>
+            </div>
+     {% endfor %}
+     </div>
+ </div>
+
+    <div>
+        <form method="POST" action="/del_user">
+            <input id="delUser" type="submit" value="Supprimer mon compte"/>
+        </form>
+    </div>
+
+    {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+    {% endfor %}
+
+    <script>
+        var deluser = document.querySelector('#delUser');
+        deluser.addEventListener('click', function(e) {
+            if (!confirm('Supprimer le compte?')) {
+                e.preventDefault();
+            }
+        }, false);
+    </script>
+{% endblock %}

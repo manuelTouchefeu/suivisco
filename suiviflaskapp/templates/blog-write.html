@@ -1,0 +1,40 @@
+{% extends "blog-layout.html" %}
+
+{% block blog %}
+
+<label for="title">Titre:</label> <br>
+<input type="text" id="title" name="title" value="{{ title }}"/><br>
+<br>
+<label for="image">Image:</label> <br>
+<figure id="image">
+    {% if image %}
+    <img src="/static/blog/images/{{ image }}" alt="{{ image }}" width="100" />
+    <figcaption>{{ image }}</figcaption>
+    {% else %}
+    <img src="/static/blog/images/alt.png" alt="alt" width="100" />
+    <figcaption></figcaption>
+    {% endif %}
+    <input type="button" value="+" class="media" id="main" />
+</figure>
+<br>
+<input type="button" value="G" class="style" id="bold" style="font-weight:bold;" />
+<input type="button" value="I" class="style" id="italic" style="font-style:italic;" />
+<input type="button" value="S" class="style" id="underline" style="text-decoration:underline;" />
+<input type="button" value="S" class="style" id="strikeThrough" style="text-decoration:line-through;" />
+<input type="button" value="Image" class="media" id="img" />
+<input type="button" value="Audio" class="media" id="audio" />
+<input type="button" value="Vidéo" class="media" id="video" />
+<input type="button" value="Document" class="media" id="doc" />
+
+<div id="editeur" contentEditable="True" >{{ content|safe }}</div>
+
+<br>
+<input type="button" id="save" value="Save" />
+<br>
+<p>Le HTML:</p>
+<div id="html" contentEditable="True">{{ content }}</div>
+
+<script src="/static/js/utils.js"></script>
+<script src="/static/js/blog-write.js"></script>
+
+{% endblock %}

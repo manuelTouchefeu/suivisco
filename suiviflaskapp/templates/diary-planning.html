@@ -1,0 +1,52 @@
+{% extends "diary-layout.html" %}
+
+{% block diary %}
+
+{% if days|length > 1 %}
+<nav class="navbar navbar3">
+    <ul>
+    {% for d in days %}
+        <li><a href="{{ url_for('diary_planning', day=d) }}">{{ d }}</a></li>
+    {% endfor %}
+    </ul>
+</nav>
+{% endif %}
+
+<h1 id="title"><span id="dayName">{{ day['name'] }}</span> <span id="date">{{ day['date'] }}</span></h1>
+<input type="date" class="dateForm" id="dateForm" style="display: none">
+<input type="submit" value="PDF" class="rec" id="pdf">
+<input type="submit" value="Enregistrer" class="rec" id="save">
+<input type="submit" value="Objectifs" class="rec" id="tasks">
+
+<table>
+    <tr>
+        <th></th>
+        {% for g in day['groups'] %}
+        <th>
+            <input type="hidden" name="group_name" value="{{ g['name'] }}">
+            {{ g['name'] }}
+        </th>
+        {% endfor %}
+    </tr>
+    {% set nb_lines = day['groups'][0]['items']|length %}
+    {% for i in range(0, nb_lines) %}
+        <tr class="line">
+            <td class="schedule">{{ day['groups'][0]['items'][i]['schedule'] }}</td>
+            {% for group in day['groups'] %}
+                <td class="group_{{ group['name'] }}" rowspan="1">
+                    <input class="color" type="hidden" value="{{ group['items'][i]['color'] }}">
+                    <p class="description">{{ group['items'][i]['description'] }}</p>
+                    objectif:
+                    <div class="task" contenteditable="true">{{ group['items'][i]['task'] }}</div>
+                    descriptif:
+                    <div class="action_global" contenteditable="true">{{ group['items'][i]['action_global'] }}</div>
+                </td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+
+
+<script src="/static/js/diary-planning.js"></script>
+
+{% endblock %}
