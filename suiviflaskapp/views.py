@@ -390,6 +390,11 @@ def child_comments(child_id):
 
     return render_template('child-comments.html', child=child)
 
+@app.route('/enfant/commentaires/aide/<int:child_id>', methods=["GET", "POST"])
+@login_required
+def help(child_id):
+    c = Comment.query.order_by(Comment.id.desc()).all()
+    return render_template('help.html', comments=c, title="Aide")
 
 @app.route('/rotate-image', methods=['POST'])  # ajax
 @login_required

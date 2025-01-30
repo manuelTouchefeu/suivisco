@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="/static/css/app.css" />
+        <title>suivi</title>
+	</head>
+
+	<body>
+        <h2>{{ title }}:</h2>
+        {% for c in comments %}
+            <p>{{ c.content }}</p>
+        {% endfor %}
+    </body>
+    <script src="/static/js/utils.js"></script>
+</html>

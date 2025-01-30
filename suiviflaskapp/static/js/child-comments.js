@@ -3,8 +3,17 @@
 var TITLE = document.querySelector("#form").querySelector("h2");
 var EDITOR = document.getElementById("editeur");
 var CHILD_ID =  document.getElementById("child_id").value;
+var HELP_BUTTON = document.querySelector("#help");
 var HOST = window.location.origin + '/enfant/commentaires/' + CHILD_ID;
 console.log(HOST);
+
+// help
+HELP_BUTTON.addEventListener('click', e => {
+    var host = window.location.origin + '/enfant/commentaires/aide/' + CHILD_ID;
+    var windowObjectReference = window.open(host, 'media', 'resizable=yes, location=no, width=350, height=500, menubar=no');
+} );
+
+
 // editeur
 (function () {
     EDITOR.addEventListener('keydown', e => {

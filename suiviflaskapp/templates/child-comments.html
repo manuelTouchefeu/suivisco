@@ -1,4 +1,4 @@
-"{% extends "child-layout.html" %}
+{% extends "child-layout.html" %}
 
 {% block child %}
 
@@ -14,6 +14,7 @@
     <input type="hidden" id="comment_id" value="">
     <input type="hidden" id="child_id" value="{{child.id}}">
     <input type="submit" id="save" class="add" value="Enregistrer" />
+    <button id="help">Aide</button>
     <input type="submit" id="cancel" value="Annuler" style="display:none"/>
 </div>
 

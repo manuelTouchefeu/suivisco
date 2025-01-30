@@ -10,7 +10,6 @@ from .utils import personalize
 import locale
 locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
 
-
 # Create database connection object
 db = SQLAlchemy(app)
 
