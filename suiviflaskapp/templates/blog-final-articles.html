@@ -9,8 +9,7 @@
     {% for article in articles %}
     <div class="article" id="article_{{ article.id }}">
         <h2>
-            <span class="title">{{ article.title }}</span> |
-            le <span class="date">{{ article.date.strftime("%d/%m/%Y") }}</span>
+            <span class="title">{{ article.title }}</span>
         </h2>
         {% if article.image %}
         <img src="{{ config['BLOG_IMG'] }}{{ article.image }}" width="100%">
@@ -18,6 +17,7 @@
         <div class="text">
         {{ article.content|safe }}
         </div>
+        <div>[le <span class="date">{{ article.date.strftime("%d/%m/%Y") }}</span>]</div>
         <br>
         {% if article.is_editable %}
             {% if visitor or current_user.is_authenticated %}
